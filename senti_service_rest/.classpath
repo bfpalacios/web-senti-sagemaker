@@ -7,12 +7,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry exported="true" kind="lib" path="/Users/bfpalacios/Library/Mobile Documents/com~apple~CloudDocs/AWS-UPC/workspace-sagemaker/senti_web/WebContent/WEB-INF/lib/spring-jdbc-5.0.7.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/mariadb-java-client-1.6.3.jar"/>
-	<classpathentry kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/spring-beans-5.0.7.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/spring-core-5.0.7.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/spring-jdbc-5.0.7.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/spring-tx-5.0.7.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/commons-logging-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/mariadb-java-client-1.6.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/spring-beans-5.0.7.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/spring-core-5.0.7.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/spring-jdbc-5.0.7.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/bfpalacios/Documents/APP/DEV/libs/spring/spring-tx-5.0.7.RELEASE.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

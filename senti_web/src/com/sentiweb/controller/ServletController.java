@@ -53,8 +53,8 @@ public class ServletController extends HttpServlet {
 		
 		if(servletPath.equalsIgnoreCase("/procesar.do")) {
 			procesarEncuesta(request, response);
-			
-			request.getRequestDispatcher("tables.jsp").forward(request, response);return;
+ 
+			request.getRequestDispatcher("index.jsp").forward(request, response);return;
 		}
 		
 		
@@ -87,25 +87,18 @@ public class ServletController extends HttpServlet {
 
 			//List<Respuesta> respuestaList=DaoEntity.GetRespuestasbyIdEncAndIdPreg(idEncuestaSession, 1);
 			List<Respuesta> respuestaList =DaoEntity.GetAllRecomendaciones();
-			List<Respuesta> respuestaSentimientoList =DaoEntity.GetAllRespuestas();
-		 
-			System.out.println("total de encuestados  respuesta senti ==>"+respuestaSentimientoList.size());
-			
-			//ApiGatewayClient obj = new ApiGatewayClient();
+			List<Respuesta> respuestaSentimientoList =DaoEntity.GetAllRespuestas(); 
 			 
 			//invocar sagemaker 
 			for (Respuesta respuesta : respuestaSentimientoList) {
-				flagSenti = ApiGatewayClient.obtenerEstadoSentimientoSagemaker(respuesta.getDescRpta());
-				System.out.println("indicador respuesta senti ==>"+flagSenti);
+				flagSenti = ApiGatewayClient.obtenerEstadoSentimientoSagemaker(respuesta.getDescRpta()); 
 				
 				//actualizar base de datos el flag_senti respuesta
 				
 				DaoEntity.UpdateRespuestasSagemakerSisSenti(flagSenti, respuesta.getIdRpta(), respuesta.getIdPreg());
 			}
 			 
-			
-
-			request.getRequestDispatcher("tables.jsp").forward(request, response);return;	
+			diagramaPastel(request, response);	 
 			
 		}else if(idEncuestaSession==2) {
 			//listStatusEncuesta.add(new StatusEncuesta("Proyectos", 2, 3, 5));
@@ -168,44 +161,42 @@ public class ServletController extends HttpServlet {
 		
 		if(idEncuestaSessionObj!=null) {
 			Integer idEncuestaSession=(Integer)idEncuestaSessionObj;
-			int posSentimiento = DaoEntity.GetAnalisisSisSenti(idEncuestaSession, 1, 1).size();
+			double posSentimiento = DaoEntity.GetAnalisisSisSenti(idEncuestaSession, 1, 1).size();
 			//Buscar DiagramaPastel de la encuesta idEncuesta				
-			int negSentimiento = DaoEntity.GetAnalisisSisSenti(idEncuestaSession, 1, 0).size();
-			int total = posSentimiento + negSentimiento;
+			double negSentimiento = DaoEntity.GetAnalisisSisSenti(idEncuestaSession, 1, 0).size();
+			double total = posSentimiento + negSentimiento;
 
 			System.out.println("total"+ total);
 			System.out.println("posSentimiento"+ posSentimiento);
 			System.out.println("negSentimiento"+ negSentimiento);
-			float porcentajePositivo = (float)((posSentimiento/total)*100);
-			float porcentajNegtivo = (float)((negSentimiento/total)*100);
+			double porcentajePositivo 	= posSentimiento/total;
+			double porcentajNegtivo 	= negSentimiento/total;
 			
 
 			System.out.println("porcentajePositivo " + porcentajePositivo);
-			System.out.println("porcentajNegtivo " + porcentajNegtivo);
+			System.out.println("porcentajNegtivo " + negSentimiento/total);
 			positivo=String.valueOf(porcentajePositivo);
 			System.out.println("POSITIVO "+positivo );
 			negativo=String.valueOf(porcentajNegtivo);
 
 			System.out.println("NEGA "+negativo );
-			
-			request.getSession().setAttribute("positivoSession", positivo);
-			request.getSession().setAttribute("negativoSession", negativo);
+
+			request.getSession().setAttribute("positivoSession", positivo); 
+			request.getSession().setAttribute("negativoSession", negativo); 
 			//Buscar Recomendaciones de la encuesta idEncuesta
 			
 
 			//List<Respuesta> respuestaList=DaoEntity.GetRespuestasbyIdEncAndIdPreg(idEncuestaSession, 2);
 			List<Respuesta> respuestaList=DaoEntity.GetAllRecomendaciones();
 			List<Respuesta> respuestaPositivasList=DaoEntity.GetAnalisisSisSenti(1,1,1);
-			List<Respuesta> respuestaNegativasList=DaoEntity.GetAnalisisSisSenti(2,1,0);
+			List<Respuesta> respuestaNegativasList=DaoEntity.GetAnalisisSisSenti(1,1,0);
 			
 
 			request.getSession().setAttribute("recomendacionesSession", respuestaList);
 			request.getSession().setAttribute("respuestasPositivasSession", respuestaPositivasList);
 			request.getSession().setAttribute("respuestasNegativasSession", respuestaNegativasList);
-			
-			//Listar total encuestados
-			totalEncuestado="11";
-			request.getSession().setAttribute("totalEncuestadoSession", totalEncuestado);
+			 
+			request.getSession().setAttribute("totalEncuestadoSession", total);
 			
 			/*if(idEncuestaSession==1) {
 				//Buscar DiagramaPastel de la encuesta idEncuesta				
