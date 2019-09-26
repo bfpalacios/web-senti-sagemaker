@@ -309,7 +309,7 @@
 								<div class="row no-gutters align-items-center">
 									<div class="col mr-2">
 										<!-- div class="text-xs font-weight-bold text-success text-uppercase mb-1">Recomendaciones</div -->
-										<div class="h5 mb-0 font-weight-bold text-gray-800">
+										<div class="h11 mb-0 font-weight-bold text-gray-800">
 											<c:forEach var="recomendacion"
 												items="${sessionScope.recomendacionesSession }">
 												<p>${recomendacion.descRpta}</p>
@@ -340,7 +340,7 @@
 													<div
 														class="text-xs font-weight-bold text-primary text-uppercase mb-1">Comentarios
 														Positivos</div>
-													<div class="h5 mb-0 font-weight-bold text-gray-800">
+													<div class="h11 mb-0 font-weight-bold text-gray-800">
 														<c:forEach var="recomendacion"
 															items="${sessionScope.respuestasPositivasSession }">
 															<p>${recomendacion.descRpta}</p>
@@ -363,7 +363,7 @@
 													<div
 														class="text-xs font-weight-bold text-success text-uppercase mb-1">Comentarios
 														Negativos</div>
-													<div class="h5 mb-0 font-weight-bold text-gray-800">
+													<div class="h11 mb-0 font-weight-bold text-gray-800">
 														<c:forEach var="recomendacion"
 															items="${sessionScope.respuestasNegativasSession }">
 															<p>${recomendacion.descRpta}</p>

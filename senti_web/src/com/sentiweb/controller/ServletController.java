@@ -177,6 +177,10 @@ public class ServletController extends HttpServlet {
 			double porcentajePositivo 	= (posSentimiento/total)*100;
 			double porcentajNegtivo 	= (negSentimiento/total)*100;
 			
+			
+			porcentajePositivo = redondearDecimales(porcentajePositivo, 0);
+			porcentajNegtivo = redondearDecimales(porcentajNegtivo, 0);
+			
 
 			System.out.println("porcentajePositivo " + porcentajePositivo);
 			System.out.println("porcentajNegtivo " + negSentimiento/total);
@@ -261,7 +265,15 @@ public class ServletController extends HttpServlet {
 		}
 	}
 	
-	
+	public static double redondearDecimales(double valorInicial, int numeroDecimales) {
+        double parteEntera, resultado;
+        resultado = valorInicial;
+        parteEntera = Math.floor(resultado);
+        resultado=(resultado-parteEntera)*Math.pow(10, numeroDecimales);
+        resultado=Math.round(resultado);
+        resultado=(resultado/Math.pow(10, numeroDecimales))+parteEntera;
+        return resultado;
+    }
 	
 
 	/**
