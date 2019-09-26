@@ -98,7 +98,7 @@ public class ServletController extends HttpServlet {
 				DaoEntity.UpdateRespuestasSagemakerSisSenti(flagSenti, respuesta.getIdRpta(), respuesta.getIdPreg());
 			}
 			 
-			diagramaPastel(request, response);	 
+			//diagramaPastel(request, response);	 
 			
 		}else if(idEncuestaSession==2) {
 			//listStatusEncuesta.add(new StatusEncuesta("Proyectos", 2, 3, 5));
@@ -161,16 +161,21 @@ public class ServletController extends HttpServlet {
 		
 		if(idEncuestaSessionObj!=null) {
 			Integer idEncuestaSession=(Integer)idEncuestaSessionObj;
+			
+			
 			double posSentimiento = DaoEntity.GetAnalisisSisSenti(idEncuestaSession, 1, 1).size();
 			//Buscar DiagramaPastel de la encuesta idEncuesta				
 			double negSentimiento = DaoEntity.GetAnalisisSisSenti(idEncuestaSession, 1, 0).size();
+			
+			
+			int totalPastel = DaoEntity.GetAnalisisSisSenti(idEncuestaSession, 1, 1).size() + DaoEntity.GetAnalisisSisSenti(idEncuestaSession, 1, 0).size();;
 			double total = posSentimiento + negSentimiento;
 
 			System.out.println("total"+ total);
 			System.out.println("posSentimiento"+ posSentimiento);
 			System.out.println("negSentimiento"+ negSentimiento);
-			double porcentajePositivo 	= posSentimiento/total;
-			double porcentajNegtivo 	= negSentimiento/total;
+			double porcentajePositivo 	= (posSentimiento/total)*100;
+			double porcentajNegtivo 	= (negSentimiento/total)*100;
 			
 
 			System.out.println("porcentajePositivo " + porcentajePositivo);
@@ -196,7 +201,7 @@ public class ServletController extends HttpServlet {
 			request.getSession().setAttribute("respuestasPositivasSession", respuestaPositivasList);
 			request.getSession().setAttribute("respuestasNegativasSession", respuestaNegativasList);
 			 
-			request.getSession().setAttribute("totalEncuestadoSession", total);
+			request.getSession().setAttribute("totalEncuestadoSession", totalPastel);
 			
 			/*if(idEncuestaSession==1) {
 				//Buscar DiagramaPastel de la encuesta idEncuesta				
