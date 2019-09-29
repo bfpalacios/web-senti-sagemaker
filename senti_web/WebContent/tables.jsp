@@ -33,11 +33,26 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
+<script src="js/app-ajax.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 	$(window).load(function() {
 		$(".loader").fadeOut("slow");
 	});
 </script>
+
+<script>
+$(document).ready(function() {
+    $('#submitProcesar').blur(function(event) {
+           
+            $.get('procesar.do', {
+                    
+            }, function(responseText) {
+                    $('#ajaxGetUserServletResponse').text(responseText);
+            });
+    });
+});  
+    </script>
 
 </head>
 
@@ -131,12 +146,13 @@
 					<h1 class="h3 mb-2 text-gray-800">Análisis de Respuestas de
 						Sentimientos</h1>
 
-					<a href="procesar.do" class="btn btn-primary" align="center"> <span
+					<a href="procesar.do"  class="btn btn-primary" align="center" > <span
 						class="icon text-white-50" class="text"></span> <span>FINALIZAR
 							ENCUESTA</span>
 					</a> <a href="tables.do" class="btn btn-primary"> <span
 						class="icon text-white-50"></span> <span class="text">REFRESCAR</span>
 					</a>
+					 <div id="ajaxGetUserServletResponse"></div>
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
@@ -157,10 +173,8 @@
 									</thead>
 									<tfoot>
 										<tr>
-											<th>Área</th>
-											<th>Estado Pendiente</th>
-											<th>Estado Respondido</th>
-											<th>Total a Encuestar</th>
+											<th>Estado del proceso</th>
+											<th><font color="red">${sessionScope.estadoDelProceo}</font></th>
 									</tfoot>
 									<tbody>
 										<c:forEach var="statusEncuesta"
@@ -189,7 +203,7 @@
 			<footer class="sticky-footer bg-white">
 			<div class="container my-auto">
 				<div class="copyright text-center my-auto">
-					<span>Copyright &copy; Your Website 2019</span>
+					<span>Copyright &copy; Karina UPC 2019</span>
 				</div>
 			</div>
 			</footer>

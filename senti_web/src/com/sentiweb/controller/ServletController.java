@@ -1,6 +1,7 @@
 package com.sentiweb.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.senti.entity.Area;
 import com.senti.entity.Respuesta;
 import com.senti.persistence.dao.DaoEntity;
 import com.sentiweb.aws.ApiGatewayClient;
@@ -37,7 +39,8 @@ public class ServletController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String servletPath=request.getServletPath();
-		
+
+		request.getSession().setAttribute("estadoDelProceo","");
 		if(servletPath.equalsIgnoreCase("/index.do")) {			
 			diagramaPastel(request, response);			
 			
@@ -54,7 +57,7 @@ public class ServletController extends HttpServlet {
 		if(servletPath.equalsIgnoreCase("/procesar.do")) {
 			procesarEncuesta(request, response);
  
-			request.getRequestDispatcher("index.jsp").forward(request, response);return;
+			//request.getRequestDispatcher("index.jsp").forward(request, response);return;
 		}
 		
 		
@@ -97,8 +100,12 @@ public class ServletController extends HttpServlet {
 				
 				DaoEntity.UpdateRespuestasSagemakerSisSenti(flagSenti, respuesta.getIdRpta(), respuesta.getIdPreg());
 			}
-			 
-			//diagramaPastel(request, response);	 
+			
+			request.getSession().setAttribute("estadoDelProceo","TERMINO EL PROCESO DE MANERA SATISFACTORIA");
+			//request.setAttribute("loginError","Incorrect password");
+			
+			
+			 	 
 			
 		}else if(idEncuestaSession==2) {
 			//listStatusEncuesta.add(new StatusEncuesta("Proyectos", 2, 3, 5));
@@ -111,7 +118,14 @@ public class ServletController extends HttpServlet {
 	
 	private void statusEncuesta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.getSession().setAttribute("estadoDelProceo","");
+		 
+		int pendiente;
+		 int respondido;
+		 int totalEncuestar;
 		List<StatusEncuesta> listStatusEncuesta=new ArrayList<StatusEncuesta>();
+		List<Area> listTotalEncuestar=new ArrayList<Area>();
+		List<Area> listEncuestaRespondidas=new ArrayList<Area>();
 		
 		Object idEncuestaSessionObj=request.getSession().getAttribute("idEncuestaSession");
 		
@@ -126,8 +140,17 @@ public class ServletController extends HttpServlet {
 		
 		if(idEncuestaSession==1) {			
 			//Obtener base de datos status de encuestas respondidas			
+
+			listTotalEncuestar = DaoEntity.GetTotalAEncuestarPorAreaPorIdEnc(idEncuestaSession);
+			listEncuestaRespondidas = DaoEntity.GetTotalEncuestasRespondidasPorIdEnc(idEncuestaSession);
 			
-			listStatusEncuesta.add(new StatusEncuesta("Proyectos", 3, 1, 4));
+			respondido = (int) listEncuestaRespondidas.get(0).getCantidad();
+			
+			totalEncuestar	= (int) listTotalEncuestar.get(0).getCantidad();
+			
+			pendiente = (totalEncuestar - respondido);
+
+			listStatusEncuesta.add(new StatusEncuesta(listEncuestaRespondidas.get(0).getDesArea(), pendiente, respondido, totalEncuestar));
 			request.getSession().setAttribute("statusEncuestasSession", listStatusEncuesta);
 		}else if(idEncuestaSession==2) {
 			//Obtener base de datos status de encuestas respondidas	
@@ -146,6 +169,7 @@ public class ServletController extends HttpServlet {
 	
 	private void diagramaPastel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idEncuesta=request.getParameter("idEncuesta");
+		request.getSession().setAttribute("estadoDelProceo","");
 		
 		if(idEncuesta!=null) {
 			Integer id=Integer.parseInt(idEncuesta);

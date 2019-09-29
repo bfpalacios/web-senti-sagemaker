@@ -120,6 +120,35 @@ public class DaoEntity {
 		return jdbcTemplate.query(sql, rowMapper, idEnc, idArea);
 
 	}
+	
+	
+
+	//TOTAL A ENCUESTAR POR ÁREA POR ID_ENC
+
+	public static List<Area> GetTotalAEncuestarPorAreaPorIdEnc(int idEnc) {
+
+		JdbcTemplate jdbcTemplate = Conexion.getConnection();
+
+		String sql = "SELECT count(*) as contador, a.nom_area from ENCUESTADOS e\n"
+				+ "inner join COLABORADOR c ON c.id_colab=e.id_colab\r\n" + 
+				"inner join AREA a ON a.id_area=c.id_area\n" 
+				+ "where e.id_enc=? " + "";
+		RowMapper<Area> rowMapper = new AreaRowMapper();
+		return jdbcTemplate.query(sql, rowMapper, idEnc);
+
+	}
+	//TOTAL DE ENCUESTAS RESPONDIDAS POR ID_ENC 
+	public static List<Area> GetTotalEncuestasRespondidasPorIdEnc(int idEnc) {
+
+		JdbcTemplate jdbcTemplate = Conexion.getConnection();
+
+		String sql = "SELECT count(*)/2 as contador, a.nom_area from RESPUESTA r\n"
+				+ "inner join AREA a ON r.id_area=a.id_area\n" 
+				+ "where r.id_enc=? " + "";
+		RowMapper<Area> rowMapper = new AreaRowMapper();
+		return jdbcTemplate.query(sql, rowMapper, idEnc);
+
+	}
 
 	// 3.1.seccion
 	public static List<Respuesta> GetAllRespuestasSisSenti(int idEnc, int idPreg, int idArea) {
