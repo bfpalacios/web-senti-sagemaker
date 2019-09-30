@@ -55,9 +55,9 @@ public class ServletController extends HttpServlet {
 		}
 		
 		if(servletPath.equalsIgnoreCase("/procesar.do")) {
+			diagramaPastel(request, response);			
 			procesarEncuesta(request, response);
- 
-			//request.getRequestDispatcher("index.jsp").forward(request, response);return;
+			request.getRequestDispatcher("tables.jsp").forward(request, response);return;
 		}
 		
 		
@@ -102,8 +102,6 @@ public class ServletController extends HttpServlet {
 			}
 			
 			request.getSession().setAttribute("estadoDelProceo","TERMINO EL PROCESO DE MANERA SATISFACTORIA");
-			//request.setAttribute("loginError","Incorrect password");
-			
 			
 			 	 
 			
