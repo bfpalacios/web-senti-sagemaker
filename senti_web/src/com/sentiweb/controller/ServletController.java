@@ -20,8 +20,8 @@ import com.sentiweb.model.StatusEncuesta;
 
 /**
  * Servlet implementation class ServletController
- */
-@WebServlet({ "/ServletController", "/index.do", "/tables.do", "/procesar.do" })
+ */ 
+@WebServlet({ "/ServletController", "/index.do", "/tables.do" })
 public class ServletController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -38,9 +38,13 @@ public class ServletController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String servletPath=request.getServletPath();
+		//index.do o procesar.do 
+		String servletPath = request.getServletPath();
 
+		//LIMPIAR UNA VARIABLE DE SESION
 		request.getSession().setAttribute("estadoDelProceo","");
+		
+		
 		if(servletPath.equalsIgnoreCase("/index.do")) {			
 			diagramaPastel(request, response);			
 			
@@ -51,7 +55,7 @@ public class ServletController extends HttpServlet {
 		if(servletPath.equalsIgnoreCase("/tables.do")) {
 			statusEncuesta(request, response);
 			
-			request.getRequestDispatcher("tables.jsp").forward(request, response);return;
+			request.getRequestDispatcher("tables2.jsp").forward(request, response);return;
 		}
 		
 		if(servletPath.equalsIgnoreCase("/procesar.do")) {
